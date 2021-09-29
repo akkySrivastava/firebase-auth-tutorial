@@ -102,7 +102,7 @@
 }
 
 .content > p {
-  color: rgb(65, 65, 65);
+  color: rgb(146, 146, 146);
 }
 
 .content > p > span {
@@ -112,6 +112,27 @@
 .content > p > span:hover {
   color: aqua;
   text-decoration: underline;
+}
+
+.providers {
+  display: flex;
+  margin: 12px 0px;
+}
+
+.provider {
+  margin: 10px;
+  display: flex;
+  padding: 10px;
+  background-color: #ddd;
+  border-radius: 50%;
+  box-shadow: 3px 3px 3px 3px #000;
+  cursor: pointer;
+  transition: transform 0.5s ease;
+}
+
+.provider:hover {
+  transform: scale(1.1);
+  background-color: #fff;
 }
 
 @keyframes spin {

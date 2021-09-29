@@ -6,7 +6,7 @@ import { auth } from "./firebase";
 function Home() {
   const user = useSelector(selectUser);
   const handleLogout = () => {
-    if (window.confirm("Wanna break up with us 😔")) {
+    if (window.confirm("Wanna break up with us :(")) {
       auth.signOut();
     }
   };
@@ -15,11 +15,11 @@ function Home() {
       <div className="content">
         <h1>Securely logged in</h1>
         <div className="info">
-          <img src={user.pic} alt="" />
+          <img alt="" />
         </div>
         <div className="info">
           <p>Id:</p>
-          <span>{user.uid}</span>
+          <span>{user.id}</span>
         </div>
         <div className="info">
           <p>Name:</p> <span>{String(user.name).split("@")[0]}</span>

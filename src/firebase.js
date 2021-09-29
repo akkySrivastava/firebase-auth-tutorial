@@ -1,14 +1,19 @@
 import firebase from "firebase";
-var firebaseConfig = {
-  apiKey: "AIzaSyAXXw0sBbvhBI9wp2wmr9MrI9oB6Jj7OjU",
-  authDomain: "auth-767e4.firebaseapp.com",
-  projectId: "auth-767e4",
-  storageBucket: "auth-767e4.appspot.com",
-  messagingSenderId: "433253238015",
-  appId: "1:433253238015:web:cb4199060e6356a1bb78ca",
-  measurementId: "G-E1W8EZSLY1",
+
+// For Firebase JS SDK v7.20.0 and later, measurementId is optional
+const firebaseConfig = {
+  apiKey: "AIzaSyC8UHMG2PROL8H3x-uU1bU1Mp2DQn0uiEw",
+  authDomain: "auth-746a5.firebaseapp.com",
+  projectId: "auth-746a5",
+  storageBucket: "auth-746a5.appspot.com",
+  messagingSenderId: "1013640274798",
+  appId: "1:1013640274798:web:d362bde766c1e3e7d4d77f",
+  measurementId: "G-5639MW0HFN",
 };
 
 const firebaseapp = firebase.initializeApp(firebaseConfig);
 const auth = firebase.auth();
-export { auth };
+const googleProvider = new firebase.auth.GoogleAuthProvider();
+const facebookProvider = new firebase.auth.FacebookAuthProvider();
+
+export { auth, googleProvider, facebookProvider };

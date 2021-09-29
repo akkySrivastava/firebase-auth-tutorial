@@ -1,9 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import "./App.css";
-import Home from "./Home";
 import { login, logout, selectUser } from "./features/userSlice";
-import { auth } from "./firebase";
+import { auth, facebookProvider, googleProvider } from "./firebase";
+import Home from "./Home";
+import google from "./img/google.png";
+import facebook from "./img/facebook.png";
+import github from "./img/github.png";
+import twitter from "./img/twitter.png";
 
 function App() {
   const user = useSelector(selectUser);
@@ -11,63 +15,59 @@ function App() {
   const [isRegister, setIsRegister] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [isLoginState, setIsLoginState] = useState("login");
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    isRegister ? handleLogin() : handleRegister();
+  };
 
   useEffect(() => {
     auth.onAuthStateChanged((authUser) => {
       if (authUser) {
         dispatch(
           login({
-            uid: authUser.uid,
+            id: authUser.uid,
             name: authUser.displayName ? authUser.displayName : authUser.email,
+            lastsignIn: authUser.metadata.lastSignInTime,
             verified: String(authUser.emailVerified),
             pic: authUser.photoURL
               ? authUser.photoURL
-              : "https://johannesippen.com/img/blog/humans-not-users/header.jpg",
-            lastsignIn: authUser.metadata.lastSignInTime,
+              : "https://lh3.googleusercontent.com/ogw/ADea4I5bHBJbpIvco4Yh1ARth7_gu4dl_QnpyDAU0NW8=s32-c-mo",
           })
         );
-        console.log(authUser);
       } else {
         dispatch(logout());
       }
     });
   }, [dispatch]);
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    !isRegister ? handleRegister() : handleLogin();
-  };
-
-  const handleRegister = () => {
-    if (email && password !== "") {
-      auth
-        .createUserWithEmailAndPassword(email, password)
-        .then((data) => {
-          alert("Registered successfully!!! 😆");
-        })
-        .catch((err) => {
-          alert(err);
-        });
-    } else {
-      alert("Please fill out fields");
-    }
-  };
-
   const handleLogin = () => {
     if (email && password !== "") {
       auth
         .signInWithEmailAndPassword(email, password)
-        .then((data) => {
-          alert("Logged in successfully!!! 😆");
-        })
+        .then((data) => alert("Logged in successfully!!!"))
         .catch((err) => alert(err));
-    } else {
-      alert("Please fill out fields");
+    }
+  };
+  const handleRegister = () => {
+    if (email && password !== "") {
+      auth
+        .createUserWithEmailAndPassword(email, password)
+        .then((data) => alert("Registered Successfully"))
+        .catch((err) => alert(err));
     }
   };
 
+  const handleGoogle = () => {
+    auth.signInWithPopup(googleProvider);
+  };
+  const handleFacebook = () => {
+    auth.signInWithPopup(facebookProvider);
+  };
   return (
     <div className="App">
+      {" "}
       {user ? (
         <Home />
       ) : (
@@ -111,6 +111,24 @@ function App() {
                 <button onClick={handleSubmit} type="submit">
                   Done
                 </button>
+                {isLoginState === "login" && (
+                  <>
+                    <div className="providers">
+                      <div onClick={handleGoogle} className="provider">
+                        <img src={google} alt="google" />
+                      </div>
+                      <div onClick={handleFacebook} className="provider">
+                        <img src={facebook} alt="google" />
+                      </div>
+                      <div className="provider">
+                        <img src={github} alt="google" />
+                      </div>
+                      <div className="provider">
+                        <img src={twitter} alt="google" />
+                      </div>
+                    </div>
+                  </>
+                )}
                 <p>
                   {isRegister ? "New member? " : "Already registered? "}
 
